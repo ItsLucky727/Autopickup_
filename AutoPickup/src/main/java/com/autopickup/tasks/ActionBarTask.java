@@ -3,15 +3,12 @@ package com.autopickup.tasks;
 import com.autopickup.AutoPickupPlugin;
 import com.autopickup.managers.AutoPickupManager;
 import com.autopickup.managers.ConfigManager;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-/**
- * Sends an action-bar countdown to every online player
- * who holds an active timed AutoPickup grant.
- * Also refreshes boss bars if enabled.
- */
 public class ActionBarTask extends BukkitRunnable {
 
     private final AutoPickupPlugin plugin;
@@ -26,7 +23,6 @@ public class ActionBarTask extends BukkitRunnable {
         ConfigManager     cfg = plugin.getConfigManager();
 
         for (Player player : Bukkit.getOnlinePlayers()) {
-            // Only show bar for timed grants (not plain permission-node access)
             if (!mgr.hasTimedAccess(player)) continue;
             if (mgr.isToggledOff(player.getUniqueId())) continue;
 
@@ -38,7 +34,13 @@ public class ActionBarTask extends BukkitRunnable {
                     ? "Permanent"
                     : AutoPickupManager.formatSeconds(Math.max(0L, remainingMs) / 1_000L);
 
-            player.sendActionBar(cfg.getActionBarText(timeStr, warning));
+            String message = cfg.getActionBarText(timeStr, warning);
+
+            // 1.21.11 compatible
+            player.spigot().sendMessage(
+                    ChatMessageType.ACTION_BAR,
+                    new TextComponent(message)
+            );
         }
 
         if (cfg.isBossBarEnabled()) {
