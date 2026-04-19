@@ -1,0 +1,26 @@
+name: AutoPickup
+version: ${project.version}
+main: com.autopickup.AutoPickupPlugin
+api-version: '1.21'
+description: AutoPickup plugin with timed access, LuckPerms support, and action bar display
+author: AutoPickup
+
+commands:
+  autopickup:
+    description: Main AutoPickup command
+    usage: /autopickup <give|remove|toggle|status> [player] [time]
+    permission: autopickup.admin
+    aliases: [ap]
+
+permissions:
+  autopickup.use:
+    description: Allows a player to benefit from AutoPickup
+    default: false
+
+  autopickup.toggle:
+    description: Allows a player to toggle their own AutoPickup on/off
+    default: true
+
+  autopickup.admin:
+    description: Allows admin commands (give, remove, status)
+    default: op

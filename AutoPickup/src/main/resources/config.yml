@@ -1,0 +1,70 @@
+# ============================================
+#        AutoPickup  ·  Configuration
+#        Compatible: Spigot / Paper 1.21.11+
+# ============================================
+
+# Color codes: use '&' (e.g. &a = green, &c = red, &l = bold)
+# Placeholders: %player% = player name, %time% = time string
+
+messages:
+  prefix: "&8[&6AutoPickup&8] &r"
+  no-permission: "&cYou don't have permission to do that."
+  inventory-full-title: "&c&lInventory Full!"
+  inventory-full-subtitle: "&eClear some space to continue."
+  autopickup-enabled: "&aAutoPickup is now &2ON&a."
+  autopickup-disabled: "&cAutoPickup is now &4OFF&c."
+  given-to-player: "&aGranted AutoPickup to &2%player%&a for &2%time%&a."
+  received-autopickup: "&aYou have been granted AutoPickup for &2%time%&a!"
+  removed-from-player: "&cRemoved AutoPickup from &4%player%&c."
+  autopickup-removed: "&cYour AutoPickup access has been removed by an admin."
+  expired: "&cYour AutoPickup access has expired."
+  status-active: "&aAutoPickup: &2ACTIVE &7| Remaining: &a%time%"
+  status-inactive: "&cAutoPickup: &4INACTIVE"
+  status-permanent: "&aAutoPickup: &2ACTIVE &7| &aPermanent"
+  player-not-found: "&cPlayer &4'%player%'&c not found or has never joined."
+  player-status: "&aStatus for &2%player%&a: %status%"
+  invalid-time: "&cInvalid time format. Examples: &e1d &c| &e2h30m &c| &e45s &c| &eperm"
+  usage-give: "&cUsage: /autopickup give <player> <time>"
+  usage-remove: "&cUsage: /autopickup remove <player>"
+  usage-status: "&cUsage: /autopickup status [player]"
+
+# Action bar — shown to players with an active timed grant
+action-bar:
+  enabled: true
+  # How often to refresh the bar (ticks; 20 = 1 second)
+  update-interval: 20
+  # Normal display format
+  format: "&6⏱ &eAutoPickup: &a%time%"
+  # Warning format used when time drops below warning-threshold seconds
+  warning-format: "&c⚠ &eAutoPickup expiring: &c%time%"
+  warning-threshold: 60   # seconds
+
+# Boss bar — optional overlay bar (set enabled: true to activate)
+boss-bar:
+  enabled: false
+  title: "&6AutoPickup Active &7— &e%time% remaining"
+  # Colors: PINK, BLUE, RED, GREEN, YELLOW, PURPLE, WHITE
+  color: YELLOW
+  # Styles: SOLID, SEGMENTED_6, SEGMENTED_10, SEGMENTED_12, SEGMENTED_20
+  style: SOLID
+
+# Per-player toggle (/autopickup toggle)
+per-player-toggle: true
+
+# Sound effects (use Bukkit Sound enum names for 1.21.11)
+sounds:
+  inventory-full:
+    enabled: true
+    sound: BLOCK_CHEST_LOCKED
+    volume: 1.0
+    pitch: 1.2
+  expired:
+    enabled: true
+    sound: BLOCK_NOTE_BLOCK_BASS
+    volume: 1.0
+    pitch: 0.5
+
+# Persistence — timed grants survive server restarts
+persistence:
+  # Auto-save interval in seconds
+  save-interval: 300
