@@ -77,11 +77,24 @@ public class AutoPickupManager {
      * @param durationMs milliseconds; use -1L for permanent
      */
     public void giveTimedAccess(UUID uuid, long durationMs) {
-        long expiry = (durationMs == -1L) ? -1L : System.currentTimeMillis() + durationMs;
-        timedAccess.put(uuid, expiry);
-        toggledOff.remove(uuid);
-        updateBossBar(uuid);
+    if (durationMs == -1L) {
+        // Permanent grant — seedha set karo
+        timedAccess.put(uuid, -1L);
+    } else {
+        Long existing = timedAccess.get(uuid);
+        long base;
+        if (existing == null || existing == -1L) {
+            // Koi grant nahi tha ya permanent tha — fresh start
+            base = System.currentTimeMillis();
+        } else {
+            // Pehle se time tha — uske UPAR add karo
+            base = Math.max(existing, System.currentTimeMillis());
+        }
+        timedAccess.put(uuid, base + durationMs);
     }
+    toggledOff.remove(uuid);
+    updateBossBar(uuid);
+}
 
     /** Remove a timed grant. */
     public void removeTimedAccess(UUID uuid) {
